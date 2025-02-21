@@ -33,7 +33,7 @@ jobs:
         id: chartExists
         run: |
           set +e
-          docker manifest inspect ghcr.io/henrywhitaker3/prompage-helm:v${{ env.CHART_VERSION }}
+          docker manifest inspect ghcr.io/${{ GITHUB_REPOSITORY }}-helm:v${{ env.CHART_VERSION }}
           rc=$?
           set -e
           if [ $rc -eq 0 ]; then
@@ -49,7 +49,7 @@ jobs:
         uses: appany/helm-oci-chart-releaser@v0.4.2
         with:
           name: prompage-helm
-          repository: henrywhitaker3
+          repository: ${{ github.repository_owner }}
           tag: "v${{ env.CHART_VERSION }}"
           path: chart
           registry: ghcr.io

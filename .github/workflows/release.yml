@@ -29,7 +29,7 @@ jobs:
         with:
           push: true
           tags: |
-            ghcr.io/henrywhitaker3/prompage:latest
-            ghcr.io/henrywhitaker3/prompage:${{ github.ref_name }}
+            ghcr.io/${{ GITHUB_REPOSITORY }}:latest
+            ghcr.io/${{ GITHUB_REPOSITORY }}:${{ github.ref_name }}
           build-args: |
             VERSION=${{ github.ref_name }}
