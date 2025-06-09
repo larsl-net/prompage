@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="/static/tailwind.css?v={{ .Version }}" />
     <link rel="icon" type="image/png" href="/static/icon.png" />
     <title>{{ .Config.UI.PageTitle }}</title>
+    {{ if eq .Config.Analytics.Type "umami" }}
+    <script defer src="{{ .Config.Analytics.Umami.Script }}" data-website-id="{{ .Config.Analytics.Umami.WebsiteID }}"></script>
+    {{ end }}
 </head>
 
 <body

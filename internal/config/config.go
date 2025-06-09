@@ -46,6 +46,16 @@ type UIHeader struct {
 	Logo    string `yaml:"logo"`
 }
 
+type Analytics struct {
+	Type  string         `yaml:"type"`
+	Umami AnalyticsUmami `yaml:"umami"`
+}
+
+type AnalyticsUmami struct {
+	Script    string `yaml:"script"`
+	WebsiteID string `yaml:"websiteID"`
+}
+
 type Metrics struct {
 	Enabled bool `yaml:"enabled"`
 	Port    int  `yaml:"port"`
@@ -76,6 +86,8 @@ type Config struct {
 	Refresh time.Duration `yaml:"refresh"`
 
 	UI UI `yaml:"ui"`
+
+	Analytics Analytics `yaml:"analytics"`
 }
 
 func Load(path string) (*Config, error) {
@@ -159,6 +171,10 @@ func setDefaults(conf *Config) {
 	if conf.UI.Theme == "" {
 		conf.UI.Theme = "light"
 	}
+
+	if conf.Analytics.Type == "" {
+		conf.Analytics.Type = "none"
+	}
 }
 
 func setDefaultQueryValues(q *Query) {
@@ -213,6 +229,30 @@ func (c *Config) Validate() error {
 			if !c.containsDatasource(extra.Datasource) {
 				return ErrUnknownDatasource
 			}
+		}
+	}
+
+	analyticsTypeValid := false
+	analyticsTypes := []string{
+		"none",
+		"umami",
+	}
+
+	for _, val := range analyticsTypes {
+		if val == c.Analytics.Type {
+			analyticsTypeValid = true
+		}
+	}
+	if !analyticsTypeValid {
+		return errors.New("unsupportet analytics type")
+	}
+
+	if c.Analytics.Type == "umami" {
+		if c.Analytics.Umami.Script == "" {
+			return errors.New("analytics umami script must be set")
+		}
+		if c.Analytics.Umami.WebsiteID == "" {
+			return errors.New("analytics umami websiteID must be set")
 		}
 	}
 

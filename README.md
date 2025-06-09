@@ -70,6 +70,19 @@ ui:
     enabled: false
     # Logo URL to display in the header
     logo: https://raw.githubusercontent.com/henrywhitaker3/prompage/refs/heads/main/internal/resources/static/icon.png
+analytics:
+  # Type of analytics (default: none)
+  # Options:
+  # - none: No Tracking
+  # - umami: umami.is tracking
+  type: umami
+
+  # umami settings
+  umami:
+    # Script for umami
+    script: http://localhost:3000/script.js
+    # Website ID for umami
+    websiteID: 3FD6E4BD-2CE9-4D9F-BD8B-65B3A2B870C9
 ```
 
 ## Installation
